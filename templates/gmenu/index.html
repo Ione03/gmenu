@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Django Menus Tester using SmartMenus jQuery</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- SmartMenus core CSS (required) -->
+    <link href="{% static 'gmenu/css/sm-core-css.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- "sm-blue" menu theme (optional, you can use your own CSS, too) -->
+    <link href="{% static 'gmenu/css/sm-blue/sm-blue.css' %}" rel="stylesheet" type="text/css" />
+
+    <link href="{% static 'gmenu/fonts/fontawesome-5.0.8/css/fontawesome-all.css' %}" rel="stylesheet" type="text/css" />
+
+
+    <!-- YOU DO NOT NEED THIS - demo page content styles -->
+    <!--<link href="../libs/demo-assets/demo.css" rel="stylesheet" type="text/css" />-->
+
+  </head>
+
+  <body>
+    {{menu}}
+    {{activeMenuList}} <br>
+    breadCrumb = {{breadCrumb}}
+    <nav id="main-nav">
+      <ul id="main-menu" class="sm sm-blue">
+          {% for n in menu %}   
+            <li>
+            {% if n.href == '' or n.href is None %}
+                <a href="#" title="{{n.nama}}" class="
+                    {% if n.nama|lower in activeMenuList %} 
+                        current
+                    {% endif %}"
+                >            
+            {% else %}
+                {% if '//www.' in n.href %}
+                    <a target=_blank href="{{n.href}}" title="{{n.nama}}" class="
+                        {% if n.nama|lower in activeMenuList %} 
+                            current
+                        {% endif %}"
+                    >
+                {% else %}
+                    <a href="/{{n.href}}" title="{{n.nama}}" class="
+                        {% if n.nama|lower in activeMenuList %} 
+                            current
+                        {% endif %}"
+                    > 
+                {% endif %}
+            {% endif %}
+
+            {% if n.icon == '' or n.icon is None %}
+                {{n.nama}} </a>
+            {% else %}            
+                <i class="fa fa-lg fa-fw fa-{{n.icon}}"></i> &nbsp;{{n.nama}}</a>
+            {% endif %}
+
+            <!-- mulai tag child -->
+            {% if n.haveChild == 1 %} <ul> {% else %} </li> {% endif %} 						
+            {% if n.haveChildEndTag > 0 %} 
+                {% if n.haveChildEndTag >= 3 %} </ul></li> {% endif %}
+                {% if n.haveChildEndTag >= 2 %} </ul></li> {% endif %}
+                {% if n.haveChildEndTag >= 1 %} </ul></li> {% endif %}        
+            {% endif %}
+            <!-- end tag child -->
+          {% endfor %}          
+      </ul>
+    </nav>    
+
+    <!-- elif n.href == '#' or n.href == '/' or n.href == '' -->
+    <!-- {% if '//www.' in n.href %}
+        <a target=_blank href="{{n.href}}" title="{{n.nama}}" >
+    {% else %}
+        <a href="{{n.href}}" title="{{n.nama}}" >
+    {% endif %} -->
+
+    <!-- YOU DO NOT NEED THIS - demo page content -->
+    <!--
+    <div class="columns">
+     <div class="left-column">
+      <div id="content">
+       <h1>SmartMenus</h1>
+       <p>jQuery website menu plugin. Responsive and accessible list-based website menus that work on all devices.</p>
+       <ul>
+        <li><a href="http://www.smartmenus.org/docs/">Getting started and API documentation</a></li>
+        <li><a href="https://github.com/vadikom/smartmenus/issues">Bugs and issues</a></li>
+        <li><a href="http://www.smartmenus.org/forums/">Support forums</a></li>
+        <li><a href="http://www.smartmenus.org/support/premium-support/">Premium support</a></li>
+       </ul>
+       <h2>Examples</h2>
+       <p>Basic bundled demos:</p>
+       <ul>
+        <li><a href="keyboard-navigation.html">Keyboard Addon</a></li>
+        <li><a href="bootstrap-4-navbar.html">Bootstrap 4 Addon (Navbar)</a></li>
+        <li><a href="bootstrap-4-navbar-static-top.html">Bootstrap 4 Addon (Navbar static top)</a></li>
+        <li><a href="bootstrap-4-navbar-fixed-top.html">Bootstrap 4 Addon (Navbar fixed top)</a></li>
+        <li><a href="bootstrap-4-navbar-fixed-bottom.html">Bootstrap 4 Addon (Navbar fixed bottom)</a></li>
+        <li><a href="bootstrap-navbar.html">Bootstrap Addon (Navbar)</a></li>
+        <li><a href="bootstrap-navbar-static-top.html">Bootstrap Addon (Navbar static top)</a></li>
+        <li><a href="bootstrap-navbar-fixed-top.html">Bootstrap Addon (Navbar fixed top)</a></li>
+        <li><a href="bootstrap-navbar-fixed-bottom.html">Bootstrap Addon (Navbar fixed bottom)</a></li>
+       </ul>
+       <p><a href="http://www.smartmenus.org/about/themes/#demos-gallery" class="gray-button">Online demos + themes gallery &raquo;</a></p>
+      </div>
+     </div>
+     <div class="right-column"></div>
+    </div>
+    -->
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="{% static 'gmenu/libs/jquery/jquery.js' %}"></script>
+
+    <!-- SmartMenus jQuery plugin -->
+    <script type="text/javascript" src="{% static 'gmenu/jquery.smartmenus.js' %}"></script>
+
+    <!-- SmartMenus jQuery init -->
+    <script type="text/javascript">
+    	$(function() {
+    		$('#main-menu').smartmenus({
+    			subMenusSubOffsetX: 1,
+    			subMenusSubOffsetY: -8
+    		});
+    	});
+    </script>
+
+    <!-- YOU DO NOT NEED THIS - demo page themes switcher -->
+    <!--script type="text/javascript" src="../libs/demo-assets/themes-switcher.js"></script>-->
+
+  </body>
+</html>
